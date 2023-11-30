@@ -16,6 +16,10 @@ export function entityViewStore(data: EntityViewConfig) {
     private readonly components = new BehaviorSubject({});
     readonly components$ = this.components.asObservable();
 
+    // this service can handle dispatching the action to trigger the http request to fetch data
+    // this service can handle selecting data from the global state OR we could provide stores to the appropriate child components to select the data
+    // we can pass in different configuration to render the different view OR the service can be smart enough to fetch the correct config
+
 		constructor() {
 			this.components.next({
         sideNav: {
@@ -29,10 +33,10 @@ export function entityViewStore(data: EntityViewConfig) {
           component: EntityFiltersViewComponent,
           inputs: { title: data.title},
         },
-        banner: {
+        banner: data.title === 'assets' ? {
           component: EntityBannerViewComponent,
           inputs: { title: data.title},
-        },
+        } : undefined,
         table: {
           component: EntityTableViewComponent,
           inputs: { title: data.title},
