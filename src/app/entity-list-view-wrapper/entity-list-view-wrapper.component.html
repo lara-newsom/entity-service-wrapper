@@ -1,0 +1,19 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h1>I am the wrapper</h1>
+  <ng-container *ngComponentOutlet="
+    vm.sideNav.component;
+    inputs: vm.sideNav.inputs;
+  " />
+  <ng-container *ngComponentOutlet="
+    vm.filters.component;
+    inputs: vm.filters.inputs;
+  " />
+  <ng-container *ngComponentOutlet="
+    vm.banner.component;
+    inputs: vm.banner.inputs;
+  " />
+  <ng-container *ngComponentOutlet="
+    vm.table.component;
+    inputs: vm.table.inputs;
+  " />
+</ng-container>
