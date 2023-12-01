@@ -9,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
   imports: [NgFor]
 })
 export class EntitySubMenuViewComponent implements OnInit {
-  @Input() sideNavItems: string[] = [];
+  @Input() sideNavOptions: string[] = [];
   @Input() title: string = '';
   constructor() { }
 
