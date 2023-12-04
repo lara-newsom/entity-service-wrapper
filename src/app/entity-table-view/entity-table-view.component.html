@@ -1,1 +1,9 @@
-<p>I am a {{ title }} table view</p>
+<table>
+  <tr>
+    <th>{{ title }} Data</th>
+  </tr>
+  <tr *ngFor="let data of tableData">
+    <td>{{ data }}</td>
+    <td>Description of the data</td>
+  </tr>
+</table>>

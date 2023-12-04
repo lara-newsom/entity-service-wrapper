@@ -1,22 +1,28 @@
 <ng-container>
   <h1>I am the entity content</h1>
-  <ng-template *ngComponentOutlet="
-    ENTITY_SUBMENU;
-    inputs: components['sideNav']().inputs;
-  " />
-  <ng-template *ngComponentOutlet="
-  ENTITY_FILTERS;
-  inputs: components['filters']().inputs;
-  " />
-  <ng-container *ngIf="components['banner']().inputs; else noBanner">
+  <ng-container *ngIf="components['sideNav']">
+    <ng-template *ngComponentOutlet="
+      ENTITY_SUBMENU;
+      inputs: components['sideNav']()?.inputs;
+    " />
+  </ng-container>
+  <ng-container *ngIf="components['filters']">
+    <ng-template *ngComponentOutlet="
+    ENTITY_FILTERS;
+    inputs: components['filters']()?.inputs;
+    " />
+  </ng-container>
+  <ng-container *ngIf="components['banner']">
     <ng-template *ngComponentOutlet="
       ENTITY_BANNER;
       inputs: components['banner']().inputs;
     " />
   </ng-container>
-  <ng-template #noBanner><h3>I do not need a banner</h3></ng-template>
+  <ng-container *ngIf="components['table']">
+
   <ng-template *ngComponentOutlet="
     ENTITY_TABLE;
-    inputs: components['table']().inputs;
+    inputs: components['table']()?.inputs;
   " />
+  </ng-container>
 </ng-container>
