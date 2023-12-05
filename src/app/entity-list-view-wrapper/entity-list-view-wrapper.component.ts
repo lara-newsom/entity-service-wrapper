@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe, NgComponentOutlet, NgIf } from '@angular/common';
-import { ENTITY_VIEW_STORE } from '../entity-view-service';
 import { EntityBannerViewComponent } from '../entity-banner-view/entity-banner-view.component';
 import { EntityFiltersViewComponent } from '../entity-filters-view/entity-filters-view.component';
 import { EntitySubMenuViewComponent } from '../entity-sub-menu-view/entity-sub-menu-view.component';
 import { EntityTableViewComponent } from '../entity-table-view/entity-table-view.component';
+import { ENTITY_VIEW_SIGNAL_STORE } from '../entity-list-view-signal-store-service';
 
 @Component({
   standalone: true,
@@ -18,8 +18,17 @@ import { EntityTableViewComponent } from '../entity-table-view/entity-table-view
   ]
 })
 export class EntityListViewWrapperComponent {
-  readonly entityViewService = inject(ENTITY_VIEW_STORE);
-  components = this.entityViewService.components;
+  readonly entityViewService = inject(ENTITY_VIEW_SIGNAL_STORE);
+  banners = this.entityViewService.banners;
+  filters = this.entityViewService.filters;
+  sideNavOptions = this.entityViewService.sideNavOptions;
+  tableData = this.entityViewService.tableData;
+  entityType = this.entityViewService.entityType;
+
+  downloadCsv() {
+    // get methods working
+    // this.entityViewService.downloadCsv();
+  }
 
   // moving these here so they do not lazy load when the routes initialize however this may negate the benefit of ngComponentOutlet
   readonly ENTITY_BANNER = EntityBannerViewComponent;

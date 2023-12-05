@@ -1,28 +1,40 @@
 <ng-container>
   <h1>I am the entity content</h1>
-  <ng-container *ngIf="components['sideNav']">
+  <ng-container *ngIf="sideNavOptions">
     <ng-template *ngComponentOutlet="
       ENTITY_SUBMENU;
-      inputs: components['sideNav']()?.inputs;
+      inputs: {
+        sideNavOptions: sideNavOptions(),
+        title: entityType(),
+      };
     " />
   </ng-container>
-  <ng-container *ngIf="components['filters']">
+  <ng-container *ngIf="filters">
     <ng-template *ngComponentOutlet="
     ENTITY_FILTERS;
-    inputs: components['filters']()?.inputs;
+    inputs: {
+      filters: filters(),
+      title: entityType(),
+    };
     " />
   </ng-container>
-  <ng-container *ngIf="components['banner']">
+  <ng-container *ngIf="banners">
     <ng-template *ngComponentOutlet="
       ENTITY_BANNER;
-      inputs: components['banner']().inputs;
+      inputs: {
+        banners: banners(),
+        title: entityType(),
+      };
     " />
   </ng-container>
-  <ng-container *ngIf="components['table']">
+  <ng-container *ngIf="tableData">
 
   <ng-template *ngComponentOutlet="
     ENTITY_TABLE;
-    inputs: components['table']()?.inputs;
+    inputs: {
+      tableData: tableData(),
+      title: entityType(),
+    };
   " />
   </ng-container>
 </ng-container>
