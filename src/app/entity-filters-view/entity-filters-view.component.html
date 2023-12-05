@@ -1,1 +1,4 @@
-<p>I am a {{ title }}filters view</p>
+<div>Filters for {{title}}</div>
+<ul *ngFor="let filter of filters">
+  <li><button>{{ filter }}</button></li>
+</ul>

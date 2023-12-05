@@ -1,1 +1,3 @@
-<p>I am a {{ title }} banner</p>
+<ng-container *ngFor="let banner of banners">
+  <h2>I am the {{ banner }} for the {{ title }} view</h2>
+</ng-container>
