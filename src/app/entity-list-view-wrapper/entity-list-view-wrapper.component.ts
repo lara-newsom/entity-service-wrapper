@@ -4,7 +4,7 @@ import { EntityBannerViewComponent } from '../entity-banner-view/entity-banner-v
 import { EntityFiltersViewComponent } from '../entity-filters-view/entity-filters-view.component';
 import { EntitySubMenuViewComponent } from '../entity-sub-menu-view/entity-sub-menu-view.component';
 import { EntityTableViewComponent } from '../entity-table-view/entity-table-view.component';
-import { ENTITY_VIEW_SIGNAL_STORE } from '../entity-list-view-signal-store-service';
+import { ENTITY_VIEW_SIGNAL_STORE } from '../injection-tokens';
 
 @Component({
   standalone: true,
