@@ -4,42 +4,36 @@ import { withBanners, withFilters, withSideNav, withTable } from '../entity-list
 import { Injectable, inject, runInInjectionContext } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadListView } from '../state/actions';
-import { ENTITY_VIEW_SIGNAL_STORE } from '../injection-tokens';
+import { ENTITY_TYPE, ENTITY_VIEW_SIGNAL_STORE } from '../injection-tokens';
 
-function getAssetsStore (entityType: string){
-  return signalStore(
-    withHooks({
-      onInit(){
-        const store = inject(Store);
-        store.dispatch(loadListView({entityType}))
-      }
-    }),
-    withState({entityType}),
-    // withSideNav(entityType),
-    // withFilters(entityType),
-    // withTable(entityType),
-    // withBanners(entityType)
-  )
-};
+export const ASSETS_VIEW_STORE = signalStore(
+  withHooks({
+    onInit(){
+      const store = inject(Store);
+      const entityType = inject(ENTITY_TYPE);
 
-function getCoverageStore(entityType: string){
-  return signalStore(
-    withHooks({
-      onInit(){
-        const store = inject(Store);
+      store.dispatch(loadListView({entityType}))
+    }
+  }),
+  withSideNav(),
+  withFilters(),
+  withTable(),
+  withBanners()
+);
 
-        store.dispatch(loadListView({entityType}))
-      }
-    }),
-    withState({entityType}),
-    // withSideNav(entityType),
-    // withFilters(entityType),
-    // withTable(entityType),
-  )
-}
+export const COVERAGE_VIEW_STORE = signalStore(
+  withHooks({
+    onInit(){
+      const store = inject(Store);
+      const entityType = inject(ENTITY_TYPE);
 
-export const ASSETS_VIEW_STORE = getAssetsStore('assets');
-export const COVERAGE_VIEW_STORE = getCoverageStore('contracts');
+      store.dispatch(loadListView({entityType}))
+    }
+  }),
+  withSideNav(),
+  withFilters(),
+  withTable(),
+);
 
 
 export const ENTITY_ROUTES: Routes = [
@@ -47,11 +41,13 @@ export const ENTITY_ROUTES: Routes = [
     path: 'assets',
     loadComponent: () => import('./entity-list-view-wrapper.component').then(m => m.EntityListViewWrapperComponent),
     providers: [
-
+      {
+        provide: ENTITY_TYPE,
+        useValue: 'assets'
+      },
       {
         provide: ENTITY_VIEW_SIGNAL_STORE,
-        useFactory: () => new ASSETS_VIEW_STORE(),
-        deps: [Store]
+        useClass: ASSETS_VIEW_STORE
       }
     ]
   },
@@ -60,9 +56,12 @@ export const ENTITY_ROUTES: Routes = [
     loadComponent: () => import('./entity-list-view-wrapper.component').then(m => m.EntityListViewWrapperComponent),
     providers: [
       {
+        provide: ENTITY_TYPE,
+        useValue: 'contracts'
+      },
+      {
         provide: ENTITY_VIEW_SIGNAL_STORE,
-        useFactory:() => new COVERAGE_VIEW_STORE(),
-        deps: [Store]
+        useClass: COVERAGE_VIEW_STORE
       }
     ]
   },

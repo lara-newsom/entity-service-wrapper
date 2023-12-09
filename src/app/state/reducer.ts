@@ -2,6 +2,7 @@ import {
   createReducer,
   on,
   createSelector,
+  createFeatureSelector,
 } from '@ngrx/store';
 import { entityBannersFetchSuccess, entityDataFetchSuccess, entityFiltersFetchSuccess, entitySideNavFetchSuccess } from './actions';
 
@@ -60,10 +61,24 @@ export const entityReducer = createReducer(
   })),
 );
 
-export const selectFilters = (state: AppState) => state.filters;
-export const selectData = (state: AppState) => state.data;
-export const selectBanners = (state: AppState) => state.banners;
-export const selectSideNav = (state: AppState) => state.sideNavOptions;
+const entityStateSelector = createFeatureSelector<AppState>(ENTITY_STATE);
+
+export const selectFilters = createSelector(
+  entityStateSelector,
+  (state) => state.filters
+);
+export const selectData = createSelector(
+  entityStateSelector,
+  (state) => state.data
+);
+export const selectBanners = createSelector(
+  entityStateSelector,
+  (state) => state.banners
+);
+export const selectSideNav = createSelector(
+  entityStateSelector,
+  (state) => state.sideNavOptions
+)
 
 export const selectEntityData = (entityType: string) => createSelector(
   selectData,
@@ -77,7 +92,9 @@ export const selectEntityFilters = (entityType: string) => createSelector(
 
 export const selectEntityBanners = (entityType: string) => createSelector(
   selectBanners,
-  (state) => state[entityType]
+  (state) => {
+    return state[entityType]
+  }
 );
 
 export const selectEntitySideNav = (entityType: string) => createSelector(

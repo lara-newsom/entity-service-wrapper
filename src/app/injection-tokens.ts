@@ -11,3 +11,7 @@ export const ENTITY_VIEW_SIGNAL_STORE = new InjectionToken<EntityViewService>(
 	'Entity View Store',
 );
 
+export const ENTITY_TYPE = new InjectionToken<string>(
+	'',
+);
+

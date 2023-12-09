@@ -49,10 +49,10 @@ export class EntityService {
   }
 
   fetchEntityBanners(entityType: string): Observable<string[]>{
-    return entityType === 'assets' ? of(this.ASSETS_FILTERS) : of(this.CONTRACT_FILTERS);
+    return entityType === 'assets' ? of(this.ASSETS_BANNERS) : of([]);
   }
 
   fetchEntitySideNav(entityType: string): Observable<string[]>{
-    return entityType === 'assets' ? of(this.ASSETS_BANNERS) : of([]);
+    return entityType === 'assets' ? of(this.ASSETS_SIDE_NAV) : of(this.CONTRACTS_SIDE_NAV);
   }
 }

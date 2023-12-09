@@ -4,7 +4,11 @@ import { EntityBannerViewComponent } from '../entity-banner-view/entity-banner-v
 import { EntityFiltersViewComponent } from '../entity-filters-view/entity-filters-view.component';
 import { EntitySubMenuViewComponent } from '../entity-sub-menu-view/entity-sub-menu-view.component';
 import { EntityTableViewComponent } from '../entity-table-view/entity-table-view.component';
-import { ENTITY_VIEW_SIGNAL_STORE } from '../injection-tokens';
+import { ENTITY_TYPE, ENTITY_VIEW_SIGNAL_STORE } from '../injection-tokens';
+import { signalStore, withHooks, withState } from '@ngrx/signals';
+import { Store } from '@ngrx/store';
+import { withBanners, withFilters, withSideNav, withTable } from '../entity-list-view-signal-store-service';
+import { loadListView } from '../state/actions';
 
 @Component({
   standalone: true,
@@ -14,8 +18,7 @@ import { ENTITY_VIEW_SIGNAL_STORE } from '../injection-tokens';
   imports: [
     NgComponentOutlet,
     NgIf,
-    AsyncPipe,
-  ]
+  ],
 })
 export class EntityListViewWrapperComponent {
   readonly entityViewService = inject(ENTITY_VIEW_SIGNAL_STORE);
@@ -23,7 +26,7 @@ export class EntityListViewWrapperComponent {
   filters = this.entityViewService.filters;
   sideNavOptions = this.entityViewService.sideNavOptions;
   tableData = this.entityViewService.tableData;
-  entityType = this.entityViewService.entityType;
+  entityType = inject(ENTITY_TYPE);
 
   downloadCsv() {
     // get methods working
