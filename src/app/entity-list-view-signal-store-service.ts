@@ -1,5 +1,10 @@
-import { InjectionToken, WritableSignal } from '@angular/core';
-import { signalStoreFeature, withMethods, withState } from '@ngrx/signals';
+import { inject } from '@angular/core';
+import { patchState, signalStoreFeature, withHooks, withMethods, withState } from '@ngrx/signals';
+import { Store } from '@ngrx/store';
+import { selectEntityBanners, selectEntityData, selectEntityFilters, selectEntitySideNav } from './state/reducer';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { tap } from 'rxjs';
+import { ENTITY_TYPE } from './injection-tokens';
 
 export type State = {
   entityType: string;
@@ -11,36 +16,30 @@ export type State = {
 
 // instead of passing in data, we will dispatch an action that triggers the http requests
 // this method can expose the data by selecting off of the global state
-export function withBanners(banners: string[]) {
-  return signalStoreFeature(
-    withState((store: State) => ({ ...store, banners }))
-    // add any banner actions that can happen here
-  )
-}
+export function withBanners() {
 
-// instead of passing in data, we will dispatch an action that triggers the http requests
-// this method can expose the data by selecting off of the global state
-export function withSideNav(sideNavOptions: string[]) {
   return signalStoreFeature(
-    withState((store: State) => ({ ...store, sideNavOptions }))
-    // add side nav actions here if needed (should be handled by routerLink)
-  )
-}
+    withState((state: State) => {
+      return { ...state, banners: [] }
+    }),
+    withMethods((state) => {
+      const store = inject(Store);
+      const entityType = inject(ENTITY_TYPE);
 
-// instead of passing in data, we will dispatch an action that triggers the http requests
-// this method can expose the data by selecting off of the global state
-export function withTable(tableData: string[]) {
-  return signalStoreFeature(
-    withState((store: State) => ({ ...store, tableData })),
-    withMethods(() => {
+      // column config select user defined prefs or predefined prefs for solutions etc.
+      const banners = store.select(selectEntityBanners(entityType));
+
       return {
-        // we can codify the actions that the list view table can dispatch here
-        // add sorting
-        // add searching
-        // get the types right here to be able to pull from the state
-        downloadCsv: () => {
-          console.log('dispatch Download Csv Action for ');
-        }
+        setBanners: rxMethod(() => banners.pipe(
+          tap((banners) => {
+            patchState(state, {banners})
+          })
+        ))
+      }
+    }),
+    withHooks({
+      onInit({setBanners}){
+        setBanners('trigger')
       }
     })
   )
@@ -48,21 +47,91 @@ export function withTable(tableData: string[]) {
 
 // instead of passing in data, we will dispatch an action that triggers the http requests
 // this method can expose the data by selecting off of the global state
-export function withFilters(filters: string[]) {
+export function withSideNav() {
+
   return signalStoreFeature(
-    withState((store: State) => ({ ...store, filters }))
-    // add methods to handle filtering
+    withState((state: State) => {
+      return { ...state, sideNavOptions: [] }
+    }),
+    withMethods((state) => {
+      const store = inject(Store);
+      const entityType = inject(ENTITY_TYPE);
+
+      const sideNavOptions = store.select(selectEntitySideNav(entityType));
+
+      return {
+        setSideNavOptions: rxMethod(() => sideNavOptions.pipe(
+          tap((sideNavOptions) => {
+            patchState(state, {sideNavOptions})
+          })
+        ))
+      }
+    }),
+    withHooks({
+      onInit({setSideNavOptions}){
+        setSideNavOptions({})
+      }
+    })
   )
 }
 
-export interface EntityViewService {
-  entityType: WritableSignal<string>;
-  tableData?: WritableSignal<string[]>;
-  banners?: WritableSignal<string[]>;
-  filters?: WritableSignal<string[]>;
-  sideNavOptions?: WritableSignal<string[]>;
+// instead of passing in data, we will dispatch an action that triggers the http requests
+// this method can expose the data by selecting off of the global state
+export function withTable() {
+
+  return signalStoreFeature(
+    withState((state: State) => {
+      return { ...state, tableData: [] }
+    }),
+    withMethods((state) => {
+      const store = inject(Store);
+      const entityType = inject(ENTITY_TYPE);
+
+      // column config select user defined prefs or predefined prefs for solutions etc.
+      const tableData = store.select(selectEntityData(entityType));
+
+      return {
+        setTableData: rxMethod(() => tableData.pipe(
+          tap((tableData) => {
+            patchState(state, {tableData})
+          })
+        ))
+      }
+    }),
+    withHooks({
+      onInit({setTableData}){
+        setTableData('trigger')
+      }
+    })
+  )
 }
 
-export const ENTITY_VIEW_SIGNAL_STORE = new InjectionToken<EntityViewService>(
-	'Entity View Store',
-);
+// instead of passing in data, we will dispatch an action that triggers the http requests
+// this method can expose the data by selecting off of the global state
+export function withFilters() {
+  return signalStoreFeature(
+    withState((state: State) => {
+      return { ...state, filters: [] }
+    }),
+    withMethods((state) => {
+      const store = inject(Store);
+      const entityType = inject(ENTITY_TYPE);
+
+      // column config select user defined prefs or predefined prefs for solutions etc.
+      const filters = store.select(selectEntityFilters(entityType));
+
+      return {
+        setFilters: rxMethod(() => filters.pipe(
+          tap((filters) => {
+            patchState(state, {filters})
+          })
+        ))
+      }
+    }),
+    withHooks({
+      onInit({setFilters}){
+        setFilters('trigger')
+      }
+    })
+  )
+}
