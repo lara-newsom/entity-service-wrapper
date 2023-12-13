@@ -5,3 +5,4 @@ export const entityDataFetchSuccess = createAction('[Entity Effect]Data Fetch Su
 export const entityFiltersFetchSuccess = createAction('[Entity Effect]Filter Fetch Success', props<{entityFilters: string[], entityType: string}>())
 export const entitySideNavFetchSuccess = createAction('[Entity Effect]Data SideNav Success', props<{entitySideNav: string[], entityType: string}>())
 export const entityBannersFetchSuccess = createAction('[Entity Effect]Data Banners Success', props<{entityBanners: string[], entityType: string}>())
+export const entityDataChange = createAction('[List View]Change Data', props<{entityData: string[], entityType: string}>())

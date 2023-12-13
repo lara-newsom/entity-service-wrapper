@@ -8,7 +8,7 @@ import { ENTITY_TYPE, ENTITY_VIEW_SIGNAL_STORE } from '../injection-tokens';
 import { signalStore, withHooks, withState } from '@ngrx/signals';
 import { Store } from '@ngrx/store';
 import { withBanners, withFilters, withSideNav, withTable } from '../entity-list-view-signal-store-service';
-import { loadListView } from '../state/actions';
+import { entityDataChange, loadListView } from '../state/actions';
 
 @Component({
   standalone: true,
@@ -22,6 +22,7 @@ import { loadListView } from '../state/actions';
 })
 export class EntityListViewWrapperComponent {
   readonly entityViewService = inject(ENTITY_VIEW_SIGNAL_STORE);
+  readonly store = inject(Store);
   banners = this.entityViewService.banners;
   filters = this.entityViewService.filters;
   sideNavOptions = this.entityViewService.sideNavOptions;
@@ -38,4 +39,15 @@ export class EntityListViewWrapperComponent {
   readonly ENTITY_FILTERS = EntityFiltersViewComponent;
   readonly ENTITY_SUBMENU = EntitySubMenuViewComponent;
   readonly ENTITY_TABLE = EntityTableViewComponent;
+  changeData(){
+    this.store.dispatch(entityDataChange({
+      entityData: [
+        'BRAND',
+        'NEW',
+        'TABLE',
+        'DATA',
+      ],
+      entityType: this.entityType
+    }))
+  }
 }
