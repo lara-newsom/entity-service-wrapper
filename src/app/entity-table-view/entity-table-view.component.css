@@ -1,0 +1,12 @@
+table {
+  font-size: small;
+  font-family:'Courier New', Courier, monospace;
+}
+
+th {
+  font-size:medium;
+}
+
+tr:hover {
+  background-color: aqua;
+}

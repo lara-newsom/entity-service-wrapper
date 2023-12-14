@@ -44,17 +44,17 @@ export class EntityEffect {
     )
   );
 
-  loadEntitySideNav$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadListView),
-      mergeMap(({entityType}) => this.entityService.fetchEntitySideNav(entityType)
-        .pipe(
-          map(entities => (entitySideNavFetchSuccess({entitySideNav: entities, entityType}))),
-          // obviously we would do some call state handling
-        )
-      )
-    )
-  );
+  // loadEntitySideNav$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     ofType(loadListView),
+  //     mergeMap(({entityType}) => this.entityService.fetchEntitySideNav(entityType)
+  //       .pipe(
+  //         map(entities => (entitySideNavFetchSuccess({entitySideNav: entities, entityType}))),
+  //         // obviously we would do some call state handling
+  //       )
+  //     )
+  //   )
+  // );
 
   constructor(
     private actions$: Actions,

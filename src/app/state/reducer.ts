@@ -4,7 +4,8 @@ import {
   createSelector,
   createFeatureSelector,
 } from '@ngrx/store';
-import { entityBannersFetchSuccess, entityDataFetchSuccess, entityFiltersFetchSuccess, entitySideNavFetchSuccess } from './actions';
+import { entityBannersFetchSuccess, entityDataChange, entityDataFetchSuccess, entityFiltersFetchSuccess, entitySideNavFetchSuccess } from './actions';
+import { SideNavItem } from '../injection-tokens';
 
 export const ENTITY_STATE = 'entity state';
 export interface AppState {
@@ -18,7 +19,7 @@ export interface AppState {
     [key: string]: string[]
   },
   sideNavOptions: {
-    [key: string]: string[]
+    [key: string]: SideNavItem[]
   }
 }
 
@@ -31,7 +32,10 @@ const initialState: AppState = {
 
 export const entityReducer = createReducer(
   initialState,
-  on(entityDataFetchSuccess, (state, {entityType, entityData}) => ({
+  on(
+    entityDataFetchSuccess,
+    entityDataChange,
+    (state, {entityType, entityData}) => ({
     ...state,
     data: {
       ...state.data,

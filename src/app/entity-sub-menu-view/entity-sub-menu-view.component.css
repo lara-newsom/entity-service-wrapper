@@ -1,0 +1,14 @@
+li {
+  font-size: medium;
+  font-family: fantasy;
+  padding: 10px;
+}
+
+li:hover {
+  background-color: rgb(178, 203, 250);
+}
+
+p {
+  font-size: large;
+  font-weight: 700;
+}

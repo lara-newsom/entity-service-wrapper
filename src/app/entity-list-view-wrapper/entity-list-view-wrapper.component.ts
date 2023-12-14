@@ -4,11 +4,11 @@ import { EntityBannerViewComponent } from '../entity-banner-view/entity-banner-v
 import { EntityFiltersViewComponent } from '../entity-filters-view/entity-filters-view.component';
 import { EntitySubMenuViewComponent } from '../entity-sub-menu-view/entity-sub-menu-view.component';
 import { EntityTableViewComponent } from '../entity-table-view/entity-table-view.component';
-import { ENTITY_TYPE, ENTITY_VIEW_SIGNAL_STORE } from '../injection-tokens';
-import { signalStore, withHooks, withState } from '@ngrx/signals';
+import { ENTITY_SIDE_NAV_OPTIONS, ENTITY_TYPE, ENTITY_VIEW_SIGNAL_STORE, TRACK_TYPE } from '../injection-tokens';
 import { Store } from '@ngrx/store';
-import { withBanners, withFilters, withSideNav, withTable } from '../entity-list-view-signal-store-service';
-import { loadListView } from '../state/actions';
+import { entityDataChange, loadListView } from '../state/actions';
+import { EntityRightSideComponent } from '../entity-right-side/entity-right-side.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -16,26 +16,21 @@ import { loadListView } from '../state/actions';
   templateUrl: './entity-list-view-wrapper.component.html',
   styleUrls: ['./entity-list-view-wrapper.component.css'],
   imports: [
+    RouterOutlet,
     NgComponentOutlet,
     NgIf,
+    EntityRightSideComponent,
   ],
 })
 export class EntityListViewWrapperComponent {
-  readonly entityViewService = inject(ENTITY_VIEW_SIGNAL_STORE);
-  banners = this.entityViewService.banners;
-  filters = this.entityViewService.filters;
-  sideNavOptions = this.entityViewService.sideNavOptions;
-  tableData = this.entityViewService.tableData;
+  readonly sideNavOptions = inject(ENTITY_SIDE_NAV_OPTIONS);
+  readonly store = inject(Store);
+  readonly signalStore = inject(ENTITY_VIEW_SIGNAL_STORE);
+  filters = this.signalStore.filters;
+  trackType = inject(TRACK_TYPE);
   entityType = inject(ENTITY_TYPE);
 
-  downloadCsv() {
-    // get methods working
-    // this.entityViewService.downloadCsv();
-  }
-
   // moving these here so they do not lazy load when the routes initialize however this may negate the benefit of ngComponentOutlet
-  readonly ENTITY_BANNER = EntityBannerViewComponent;
   readonly ENTITY_FILTERS = EntityFiltersViewComponent;
   readonly ENTITY_SUBMENU = EntitySubMenuViewComponent;
-  readonly ENTITY_TABLE = EntityTableViewComponent;
 }

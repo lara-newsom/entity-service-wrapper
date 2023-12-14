@@ -1,40 +1,39 @@
 <ng-container>
-  <h1>I am the entity content</h1>
-  <ng-container *ngIf="sideNavOptions">
-    <ng-template *ngComponentOutlet="
-      ENTITY_SUBMENU;
-      inputs: {
-        sideNavOptions: sideNavOptions(),
-        title: entityType,
-      };
-    " />
-  </ng-container>
-  <ng-container *ngIf="filters">
-    <ng-template *ngComponentOutlet="
-    ENTITY_FILTERS;
-    inputs: {
-      filters: filters(),
-      title: entityType,
-    };
-    " />
-  </ng-container>
-  <ng-container *ngIf="banners">
-    <ng-template *ngComponentOutlet="
-      ENTITY_BANNER;
-      inputs: {
-        banners: banners(),
-        title: entityType,
-      };
-    " />
-  </ng-container>
-  <ng-container *ngIf="tableData">
+  <h1>I am the {{ trackType }} entity content</h1>
 
-  <ng-template *ngComponentOutlet="
-    ENTITY_TABLE;
-    inputs: {
-      tableData: tableData(),
-      title: entityType,
-    };
-  " />
-  </ng-container>
+  <div class="flex-container">
+    <div>
+      <ng-container *ngIf="sideNavOptions">
+        <ng-template *ngComponentOutlet="
+          ENTITY_SUBMENU;
+          inputs: {
+            sideNavOptions: sideNavOptions,
+            title: trackType,
+          };
+        " />
+      </ng-container>
+      <div
+        *ngIf="filters"
+        class="filters"
+      >
+        <ng-template *ngComponentOutlet="
+          ENTITY_FILTERS;
+          inputs: {
+            filters: filters(),
+            title: entityType,
+          };
+          " />
+      </div>
+    </div>
+    <div>
+      <app-entity-right-side/>
+    </div>
+  </div>
+
+
+
+
+
+
 </ng-container>
+
