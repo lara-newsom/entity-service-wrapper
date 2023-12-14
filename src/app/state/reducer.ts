@@ -5,6 +5,7 @@ import {
   createFeatureSelector,
 } from '@ngrx/store';
 import { entityBannersFetchSuccess, entityDataChange, entityDataFetchSuccess, entityFiltersFetchSuccess, entitySideNavFetchSuccess } from './actions';
+import { SideNavItem } from '../injection-tokens';
 
 export const ENTITY_STATE = 'entity state';
 export interface AppState {
@@ -18,7 +19,7 @@ export interface AppState {
     [key: string]: string[]
   },
   sideNavOptions: {
-    [key: string]: string[]
+    [key: string]: SideNavItem[]
   }
 }
 

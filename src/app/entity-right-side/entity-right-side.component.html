@@ -1,0 +1,25 @@
+<div>{{ entityType}}</div>
+<div
+  *ngIf="banners"
+  class="banners"
+>
+  <ng-template *ngComponentOutlet="
+    ENTITY_BANNER;
+    inputs: {
+      banners: banners(),
+      title: entityType,
+    };
+  " />
+  </div>
+<div
+  *ngIf="tableData"
+  class="table"
+>
+  <ng-template *ngComponentOutlet="
+    ENTITY_TABLE;
+    inputs: {
+      tableData: tableData(),
+      title: entityType,
+    };
+  " />
+  </div>

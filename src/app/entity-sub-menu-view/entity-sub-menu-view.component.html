@@ -1,4 +1,8 @@
-<p>I am a {{ title }} side nav view</p>
+<p>{{ title }} Secondary Menu</p>
 <ul>
-  <li *ngFor="let link of sideNavOptions">I am a link for {{ link }}</li>
+  <li *ngFor="let option of sideNavOptions">
+    <a
+      [routerLink]="['/', trackType,  option.entityType]"
+    >LINK: {{ option.displayText }}</a>
+  </li>
 </ul>
