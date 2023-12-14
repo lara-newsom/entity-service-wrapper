@@ -6,7 +6,6 @@ import { ADVISORY_SIDE_NAV, ASSETS_SIDE_NAV } from './entity-side-nav.service';
 export const ENTITY_ROUTES = (): Routes => [
   {
     path: 'assets',
-    //loadComponent: () => import('./entity-list-view-wrapper/entity-list-view-wrapper.component').then(m => m.EntityListViewWrapperComponent),
     loadChildren: () => import('./entity-side-nav.service').then(m => m.getAssetsSideNavRoutes()),
     providers: [
       {
@@ -21,7 +20,6 @@ export const ENTITY_ROUTES = (): Routes => [
   },
   {
     path: 'advisories',
-    // loadComponent: () => import('./entity-list-view-wrapper/entity-list-view-wrapper.component').then(m => m.EntityListViewWrapperComponent),
     loadChildren: () => import('./entity-side-nav.service').then(m => m.getAdvisoriesSideNavRoutes()),
     providers: [
       {

@@ -1,8 +1,5 @@
-import { Injectable, inject } from "@angular/core";
 import { ENTITY_TYPE, ENTITY_VIEW_SIGNAL_STORE, SideNavItem } from "./injection-tokens";
-import { Route } from "@angular/router";
 import { ASSETS_VIEW_STORE, COVERAGE_VIEW_STORE } from "./entity.service";
-import { EntityRightSideComponent } from "./entity-right-side/entity-right-side.component";
 import { EntityListViewWrapperComponent } from "./entity-list-view-wrapper/entity-list-view-wrapper.component";
 
 export const ASSETS_SIDE_NAV: SideNavItem[] = [
